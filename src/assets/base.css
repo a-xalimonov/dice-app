@@ -1,0 +1,43 @@
+:root {
+  --color-background: #181818;
+  --color-panel-dark: #5a5a5a;
+  --color-panel-light: #868686;
+  --color-select: #acacac;
+  --color-input: #0000003a;
+  --color-text: #ebebeba3;
+
+  --grad-panel-dark: radial-gradient(circle, #626262 0%, #525252 100%);
+  --grad-panel-light: radial-gradient(circle, #8e8e8e 0%, #7e7e7e 100%);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  min-height: 100vh;
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.6;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
+  font-size: 1.5rem;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
