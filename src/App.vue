@@ -1,10 +1,11 @@
 <script lang="ts">
-import DiceController from './components/DiceController.vue'
+import DiceController from './components/DiceController.vue';
 import ConditionController from './components/ConditionController.vue';
+import ConditionList from './components/ConditionList.vue';
 import { calculateProbs, type condition } from './calculator';
 
 export default {
-  components: { DiceController, ConditionController },
+  components: { DiceController, ConditionController, ConditionList },
   data() {
     return {
       params: {
@@ -60,7 +61,9 @@ export default {
   </header>
   <main>
     <DiceController @update-size="updateSize" @update-number="updateNumber" />
-    <ConditionController @updated="updateConditions" @deleted="deleteCondition" :results="results" />
+    <ConditionController >
+      <ConditionList @updated="updateConditions" @deleted="deleteCondition" :results="results" :main="true"/>
+    </ConditionController>
   </main>
 </template>
 

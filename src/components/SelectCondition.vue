@@ -10,6 +10,8 @@ export default defineComponent({
                 'SumEquals': 'Сумма равна X',
                 'SameOfAKind': 'X конкретных одинаковых',
                 'SameOfAnyKind': 'X одинаковых',
+                'And': '«И»',
+                'Or': '«ИЛИ»',
             }
         }
     },
