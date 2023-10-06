@@ -30,7 +30,6 @@ export default defineComponent({
         <ConditionCard
             v-for="(id, index) in conditionsList"
             :key="id"
-            :index="index"
             :result="results[index]"
             @delete="deleteCondition(index)"
             @updated="(func: condition) => $emit('updated', index, func)"

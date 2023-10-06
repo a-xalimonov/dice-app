@@ -36,21 +36,6 @@ input[type=number]::-webkit-outer-spin-button,
 input[type=number]::-webkit-inner-spin-button {
 	display: none;
 }
-
-select {
-  border: none;
-  color: #fff;
-  background-color: var(--color-select);
-  padding: 5px;
-  border-radius: 5px;
-  font-size: inherit;
-  transition: 300ms;
-  outline: none;
-}
-select:hover {
-  box-shadow: inset 0px 0px 30px #ffffff67;
-}
-
 img {
   -webkit-user-drag: none;
   user-select: none;

@@ -5,6 +5,7 @@ import SumLessThan from './conditionComponents/SumLessThan.vue';
 import SumEquals from './conditionComponents/SumEquals.vue';
 import SameOfAKind from './conditionComponents/SameOfAKind.vue';
 import SameOfAnyKind from './conditionComponents/SameOfAnyKind.vue';
+import SelectCondition from './SelectCondition.vue'
 import { type condition } from '@/calculator';
 
 export default defineComponent({
@@ -15,7 +16,6 @@ export default defineComponent({
     },
     props: {
         result: Number,
-        index: Number
     },
     computed: {
         stringResult(): string {
@@ -27,7 +27,7 @@ export default defineComponent({
             }
         }
     },
-    components: { SumMoreThan, SumLessThan, SumEquals, SameOfAKind, SameOfAnyKind },
+    components: { SumMoreThan, SumLessThan, SumEquals, SameOfAKind, SameOfAnyKind, SelectCondition },
     emits: ['delete', 'updated']
 })
 </script>
@@ -35,19 +35,12 @@ export default defineComponent({
 <template>
     <div class="card-box">
         <div class="card-header">
-            <select v-model="selected">
-                <option selected value="SumMoreThan">Сумма больше x</option>
-                <option value="SumLessThan">Сумма меньше x</option>
-                <option value="SumEquals">Сумма равна x</option>
-                <option value="SameOfAKind">Несколько конкретных одинаковых</option>
-                <option value="SameOfAnyKind">Несколько одинаковых</option>
-            </select>
-            <img @click="$emit('delete')" src="../assets/cross.svg"  class="close-icon"/>
+            <SelectCondition v-model="selected" />
+            <img @click="$emit('delete')" src="../assets/cross.svg" class="close-icon" />
         </div>
         <div class="card-content">
-            <div  class="condition-content">
-                <component :is="selected"
-                    @updated="(func: condition) => $emit('updated', func)" />
+            <div class="condition-content">
+                <component :is="selected" @updated="(func: condition) => $emit('updated', func)" />
             </div>
             <div class="result-number">{{ stringResult }}</div>
         </div>
@@ -59,27 +52,33 @@ export default defineComponent({
     margin-bottom: 20px;
     padding: 10px;
     background: var(--grad-panel-light);
+    box-shadow: 3px 3px 5px #0000002f;
 }
+
 .card-header {
     margin-bottom: 15px;
 }
+
 .card-header,
 .card-content {
     display: flex;
     justify-content: space-between;
 }
+
 .condition-content {
     width: 75%;
 }
+
 .result-number {
     width: 25%;
 }
+
 .close-icon {
     height: 39px;
     cursor: pointer;
-    transition: 300ms ;
+    transition: 300ms;
 }
+
 .close-icon:hover {
     opacity: 0.5;
-}
-</style>
+}</style>
