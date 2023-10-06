@@ -139,7 +139,7 @@ export default defineComponent({
 
 .result-number {
     width: 120px;
-    text-align: center;
+    align-self: flex-end;
 }
 
 .close-icon {
