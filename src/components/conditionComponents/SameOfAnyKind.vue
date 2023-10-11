@@ -1,27 +1,29 @@
 <script lang="ts">
 import { sameOfAnyKind } from '@/calculator';
 import { defineComponent } from 'vue';
+import InputNumber from '../InputNumber.vue';
 export default defineComponent({
     data() {
         return {
             func: sameOfAnyKind,
             diceNumber: 1,
-        }
+        };
     },
     methods: {
         update() {
-            this.$emit('updated', this.func(this.diceNumber))
+            this.$emit('updated', this.func(this.diceNumber));
         }
     },
     mounted() {
-        this.update()
+        this.update();
     },
-    emits: ['updated']
+    emits: ['updated'],
+    components: { InputNumber }
 })
 </script>
 
 <template>
-    <input type="number" v-model="diceNumber" @change="update" />
+    <InputNumber v-model="diceNumber" @change="update" :min="0"/>
     одинаковых
 </template>
 

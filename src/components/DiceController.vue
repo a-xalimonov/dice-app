@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
+import InputNumber from './InputNumber.vue'
 export default defineComponent({
     data() {
         return {
@@ -7,19 +8,16 @@ export default defineComponent({
             diceSize: 6,
         }
     },
+    components: { InputNumber },
     watch: {
+        diceSize() {
+            this.$emit('update-size', this.diceSize)
+        },
         diceNumber() {
-            this.diceNumber = Math.max(this.diceNumber, 1)
-            this.diceNumber = Math.min(this.diceNumber, 8)
             this.$emit('update-number', this.diceNumber)
         },
-
-        diceSize() {
-            this.diceSize = Math.max(this.diceSize, 1)
-            this.diceSize = Math.min(this.diceSize, 8)
-            this.$emit('update-size', this.diceSize)
-        }
-    }
+    },
+    emits: ['update-size', 'update-number']
 })
 </script>
 
@@ -27,11 +25,13 @@ export default defineComponent({
     <div class="main-box">
         <div class="input-panel">
             <p>
-                Число граней: <input type="number" @wheel="(e) => diceSize -= Math.round(e.deltaY / 100)"
-                    v-model.lazy="diceSize" min="1" max="20" /></p>
+                Число граней:
+                <InputNumber v-model="diceSize" :min="1" :max="20" />
+            </p>
             <p>
-                Число костей: <input type="number" @wheel="(e) => diceNumber -= Math.round(e.deltaY / 100)"
-                    v-model.lazy="diceNumber" min="1" max="8" /></p>
+                Число костей:
+                <InputNumber v-model="diceNumber" :min="1" :max="8" />
+            </p>
         </div>
         <div class="dice-panel">
             <img v-for="i in diceNumber" @click="diceNumber--" alt="Dice Icon" class="dice-icon" src="../assets/dice.svg" />
@@ -64,5 +64,4 @@ export default defineComponent({
 .dice-icon:hover {
     opacity: 0.5;
     cursor: pointer;
-}
-</style>
+}</style>

@@ -1,29 +1,31 @@
 <script lang="ts">
 import { sumEquals } from '@/calculator';
 import { defineComponent } from 'vue';
+import InputNumber from '../InputNumber.vue';
 
 export default defineComponent({
     data() {
         return {
             func: sumEquals,
             value: 1,
-        }
+        };
     },
     methods: {
         update() {
-            this.$emit('updated', this.func(this.value))
+            this.$emit('updated', this.func(this.value));
         }
     },
     mounted() {
-        this.update()
+        this.update();
     },
-    emits: ['updated']
+    emits: ['updated'],
+    components: { InputNumber }
 })
 </script>
 
 <template>
     Сумма равна
-    <input type="number" v-model="value" min="1" @change="update" />
+    <InputNumber v-model="value" :min="1" @change="update" />
 </template>
 
 <style scoped></style>

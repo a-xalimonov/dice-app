@@ -57,7 +57,7 @@ export default {
 </script>
 <template>
   <header>
-    <h1>Header</h1>
+    <h1>Dice Calculator</h1>
   </header>
   <main>
     <DiceController @update-size="updateSize" @update-number="updateNumber" />
