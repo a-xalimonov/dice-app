@@ -59,7 +59,8 @@ export default defineComponent({
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: space-around;
+    justify-content: space-around;
+    align-items: center;
 }
 .number-input {
     width: 100%;
@@ -68,7 +69,7 @@ export default defineComponent({
 }
 
 .dice-panel {
-    width: 100%;
+    width: 600px;
     padding-bottom: 20px;
 }
 
