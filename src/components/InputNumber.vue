@@ -22,6 +22,7 @@ function changeHandler(e: Event): void {
     emit('change')
 }
 function wheelHandler(e: WheelEvent): void {
+    e.preventDefault()
     const element = e.target as HTMLInputElement
     const value = Number(element.value)
     element.value = Math.floor(value - e.deltaY / 100).toString()
