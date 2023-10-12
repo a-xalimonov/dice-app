@@ -24,18 +24,22 @@ export default defineComponent({
 <template>
     <div class="main-box">
         <div class="input-panel">
-            <p>
-                Число граней:
-                <InputNumber v-model="diceSize" :min="1" :max="20" />
-            </p>
-            <p>
-                Число костей:
-                <InputNumber v-model="diceNumber" :min="1" :max="8" />
-            </p>
-        </div>
-        <div class="dice-panel">
-            <img v-for="i in diceNumber" @click="diceNumber--" alt="Dice Icon" class="dice-icon" src="../assets/dice.svg" />
-            <img v-show="diceNumber < 8" @click="diceNumber++" alt="Plus Icon" class="dice-icon" src="../assets/plus.svg" />
+            <div class="dice-panel">
+                <img v-for="i in diceNumber" @click="diceNumber--" alt="Dice Icon" class="dice-icon"
+                    src="../assets/dice.svg" />
+                <img v-show="diceNumber < 6" @click="diceNumber++" alt="Plus Icon" class="dice-icon"
+                    src="../assets/plus.svg" />
+            </div>
+            <div class="number-input">
+                <p>
+                    Число граней:
+                    <InputNumber v-model="diceSize" :min="1" :max="20" />
+                </p>
+                <p>
+                    Число костей:
+                    <InputNumber v-model="diceNumber" :min="1" :max="6" />
+                </p>
+            </div>
         </div>
     </div>
 </template>
@@ -43,7 +47,7 @@ export default defineComponent({
 <style scoped>
 .main-box {
     width: 700px;
-    height: 250px;
+    height: 210px;
     background: var(--grad-panel-dark);
     margin-bottom: 20px;
     padding: 20px;
@@ -51,8 +55,21 @@ export default defineComponent({
     justify-content: space-between;
 }
 
+.input-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: space-around;
+}
+.number-input {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
 .dice-panel {
-    width: 400px;
+    width: 100%;
+    padding-bottom: 20px;
 }
 
 .dice-icon {
@@ -64,4 +81,5 @@ export default defineComponent({
 .dice-icon:hover {
     opacity: 0.5;
     cursor: pointer;
-}</style>
+}
+</style>
