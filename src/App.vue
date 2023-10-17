@@ -13,6 +13,7 @@ export default {
         diceNumber: 5,
         diceSize: 6,
       },
+      wait: false,
       results: [] as number[],
       timerId: -1,
     }
@@ -33,6 +34,7 @@ export default {
     },
     calculate() {
       clearTimeout(this.timerId)
+      this.wait = true
       this.timerId = setTimeout(() => {
         console.log('Calculating...')
         this.results = calculateProbs(
@@ -40,6 +42,7 @@ export default {
           this.params.diceSize,
           this.params.conditions
         )
+        this.wait = false
         console.log('Finished!')
       }, 1000);
     },
@@ -47,7 +50,7 @@ export default {
   watch: {
     params: {
       handler() {
-        this.results = []
+        // this.results = []
         this.calculate()
       },
       deep: true
@@ -62,7 +65,7 @@ export default {
   <main>
     <DiceController @update-size="updateSize" @update-number="updateNumber" />
     <ConditionController >
-      <ConditionList @updated="updateConditions" @deleted="deleteCondition" :results="results" :main="true"/>
+      <ConditionList @updated="updateConditions" @deleted="deleteCondition" :results="results" :main="true" :wait="wait"/>
     </ConditionController>
   </main>
 </template>

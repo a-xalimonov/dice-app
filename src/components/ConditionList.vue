@@ -29,29 +29,38 @@ export default defineComponent({
             this.conditionList.splice(index, 1)
             this.$emit('delete', index)
         },
-        complexCondition(conditionStr: string): boolean {
-            return conditionStr === 'And' || conditionStr === 'Or'
-        },
         update(index: number, func: condition): void {
             this.$emit('updated', index, func)
         },
-        updateAnd(index: number, subIndex: number, func: condition) {
+        addSubCondtition(index: number, subIndex: number, func: condition): void {
             this.conditionList[index].subConditions[subIndex] = func
-            const resFunc = this.conditionList[index].subConditions.reduce(
-                (previous, current) => {
-                    return (arr: number[]) => previous(arr) && current(arr)
-                }
-            )
+            this.updateComplexCondition(index)
+        },
+        updateComplexCondition(index: number): void {
+            let resFunc: condition
+            switch (this.conditionList[index].conditionStr) {
+                case 'And':
+                    resFunc = this.conditionList[index].subConditions.reduce(
+                        (previous, current) => {
+                            return (arr: number[]) => previous(arr) && current(arr)
+                        }
+                    )
+                    break;
+                case 'Or':
+                    resFunc = this.conditionList[index].subConditions.reduce(
+                        (previous, current) => {
+                            return (arr: number[]) => previous(arr) || current(arr)
+                        }
+                    )
+                    break;
+                default:
+                    return;
+            }
             this.update(index, resFunc)
         },
-        updateOr(index: number, subIndex: number, func: condition) {
-            this.conditionList[index].subConditions[subIndex] = func
-            const resFunc = this.conditionList[index].subConditions.reduce(
-                (previous, current) => {
-                    return (arr: number[]) => previous(arr) || current(arr)
-                }
-            )
-            this.update(index, resFunc)
+        deleteSubCondition(index: number, subIndex: number): void {
+            this.conditionList[index].subConditions.splice(subIndex, 1)
+            this.updateComplexCondition(index)
         },
     },
     computed: {
@@ -72,7 +81,8 @@ export default defineComponent({
         main: {
             type: Boolean,
             default: false,
-        }
+        },
+        wait: Boolean,
     },
     emits: ['updated', 'delete'],
     components: { SelectCondition, SumMoreThan, SumLessThan, SumEquals, SameOfAKind, SameOfAnyKind },
@@ -89,13 +99,17 @@ export default defineComponent({
             <div class="card-content">
                 <div class="condition-content">
                     <ConditionsList v-if="item.conditionStr === 'And'"
-                        @updated="(subIndex: number, func: condition) => updateAnd(index, subIndex, func)" />
-                    <ConditionsList v-else-if="item.conditionStr === 'Or'"
-                        @updated="(subIndex: number, func: condition) => updateOr(index, subIndex, func)" />
+                        @updated="(subIndex: number, func: condition) => addSubCondtition(index, subIndex, func)"
+                        @delete="(subIndex: number) => deleteSubCondition(index, subIndex)"
+                    />
+                    <ConditionsList v-if="item.conditionStr === 'Or'"
+                        @updated="(subIndex: number, func: condition) => addSubCondtition(index, subIndex, func)"
+                        @delete="(subIndex: number) => deleteSubCondition(index, subIndex)"
+                    />
                     <component v-else :is="conditionList[index].conditionStr"
                         @updated="(func: condition) => update(index, func)" />
                 </div>
-                <div v-show="main" class="result-number">{{ stringResults[index] }}</div>
+                <div v-show="main" class="result-number" :class="{ 'result-number-load': wait }">{{ stringResults[index] }}</div>
             </div>
         </div>
         <img @click="addCondition" alt="Plus Icon" class="plus-icon" src="../assets/plus.svg" />
@@ -140,6 +154,11 @@ export default defineComponent({
 .result-number {
     width: 120px;
     align-self: flex-end;
+    transition: 500ms;
+}
+
+.result-number-load {
+    opacity: 0.3;
 }
 
 .close-icon {
